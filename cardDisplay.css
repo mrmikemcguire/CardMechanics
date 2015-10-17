@@ -29,10 +29,10 @@ button
     padding-top: 50px;
     }
 
-#drawPile
+.drawPile
     {
     position: absolute;
-    top: 250px;
+    top: 380px;
     left: 300px;
     }
 

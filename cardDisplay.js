@@ -1,7 +1,6 @@
 shuffle(deck);
 $('#sound')[0].play();
 var z = 1;
-var discardLocation;
 
 function cardAlert (clickEvent) 
 	{
@@ -12,7 +11,7 @@ function cardAlert (clickEvent)
     $card.addClass('played');
     $card.removeClass('in-d-hand');
     $card.removeClass('in-p-hand');
-    $card.css('left', discardLocation);
+    $card.css('left', 200);
 	$card.css('z-index', z);
 	z ++;
 	}
@@ -20,8 +19,8 @@ function cardAlert (clickEvent)
 $('#deal').click(function()
         {
         numberOfCards = $('#numberOfCards').val();
-        discardLocation = (((numberOfCards * 12) + 180) / 2) + 80;
-        var card = "<img src='images/classic-cards/redVertFull.png'>";
+        var card = "<img src='images/classic-cards/blueVertFull.png'>";
+        var drawPile = "<img src='images/classic-cards/redVertFull.png'>";
         var table = $('#table');
         var dealerHand = new Array();
         var playerHand = new Array();
@@ -36,7 +35,9 @@ $('#deal').click(function()
     
         dealerHand = dealerHand.sort(bySuitAndThenRank);
         playerHand = playerHand.sort(bySuitAndThenRank);
-    
+        var $drawPile =  $(drawPile);
+        $drawPile.addClass('drawPile');
+
         var newLeft = 180;
         for(var i = 0; i < numberOfCards; i++)
             {
