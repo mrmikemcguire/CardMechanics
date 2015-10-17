@@ -4,7 +4,8 @@ var z = 1;
 var card = "<img src='images/classic-cards/blueVertFull.png'>";
 var drawPile = "<img class='drawPile' src='images/classic-cards/redVertFull.png'>";
 var $drawPile =  $('.drawPile');
-alert($drawPile.hasClass('drawPile'));
+var dealerHand = new Array();
+var playerHand = new Array();
 
 function cardAlert (clickEvent) 
 	{
@@ -22,18 +23,23 @@ function cardAlert (clickEvent)
 
 $drawPile.on('click', function()
     {
-    alert("The paragraph was clicked.");
-    //$card.removeClass('in-d-hand');
-    //$card.addClass('in-p-hand');
+    alert("The drawPile was clicked.");
+    if(playerTurn)
+        {
+        playerHand.push(deck[0]);
+        deck.splice(0, 1);
+        }
+    else
+        {
+        dealerHand.push(deck[0]);
+        deck.splice(0, 1);
+        }
     });
 
 $('#deal').click(function()
     {
     numberOfCards = $('#numberOfCards').val();
-
     var table = $('#table');
-    var dealerHand = new Array();
-    var playerHand = new Array();
 
     for(var i = 0; i < numberOfCards; i++)
         {
@@ -46,7 +52,7 @@ $('#deal').click(function()
     dealerHand = dealerHand.sort(bySuitAndThenRank);
     playerHand = playerHand.sort(bySuitAndThenRank);var $drawPile =  $(drawPile);
 
-    var newLeft = 180;
+    var newDealerLeft = 180;
     for(var i = 0; i < numberOfCards; i++)
         {
         $('#table').append(card);
@@ -57,12 +63,12 @@ $('#deal').click(function()
         $(cardObj).attr('src', dealerCardFace);
         $(cardObj).attr('data-card', JSON.stringify(dealerHand[i]));
         dealerCardValue = dealerHand[i].value;
-        $(cardObj).css('left', newLeft);
+        $(cardObj).css('left', newDealerLeft);
         $(cardObj).click(cardAlert);
-        newLeft += 12;
+        newDealerLeft += 12;
         }
 
-    newLeft = 180;
+    newPlayerLeft = 180;
     var counter = 0;
 
     for(var j = numberOfCards; j < numberOfCards * 2; j++)
@@ -75,10 +81,10 @@ $('#deal').click(function()
         $(cardObj).attr('src', playerCardFace);
         $(cardObj).attr('data-card', JSON.stringify(playerHand[counter]));
         playerCardValue = playerHand[counter].value;
-        $(cardObj).css('left', newLeft);
+        $(cardObj).css('left', newPlayerLeft);
         $(cardObj).click(cardAlert);
         counter++;
-        newLeft += 12;
+        newPlayerLeft += 12;
         }
     });
           
