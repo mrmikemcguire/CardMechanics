@@ -16,6 +16,14 @@ function cardAlert (clickEvent)
 	z ++;
 	}
 
+function drawCard (clickEvent)
+    {
+    $drawPile = $(clickEvent.target);
+    alert("It works");
+    //$card.removeClass('in-d-hand');
+    //$card.addClass('in-p-hand');
+    }
+
 $('#deal').click(function()
         {
         numberOfCards = $('#numberOfCards').val();
@@ -37,8 +45,10 @@ $('#deal').click(function()
         playerHand = playerHand.sort(bySuitAndThenRank);
         var $drawPile =  $(drawPile);
         $drawPile.addClass('drawPile');
+        $drawPile.click(drawCard);
 
-        var newLeft = 180;
+
+            var newLeft = 180;
         for(var i = 0; i < numberOfCards; i++)
             {
             $('#table').append(card);
