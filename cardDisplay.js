@@ -1,75 +1,92 @@
 shuffle(deck);
 $('#sound')[0].play();
 var z = 1;
-var discardLocation;
+var card = "<img src='images/classic-cards/blueVertFull.png'>";
+var drawPile = "<img class='drawPile' src='images/classic-cards/redVertFull.png'>";
+var $drawPile =  $('.drawPile');
+var dealerHand = new Array();
+var playerHand = new Array();
 
 function cardAlert (clickEvent) 
 	{
   	var $card, data;
   	$card = $(clickEvent.target);
-  	data = $card.data('card');
+  	//data = $card.data('card');
 //  	alert(data.rank + " of " + data.suit);
     $card.addClass('played');
     $card.removeClass('in-d-hand');
     $card.removeClass('in-p-hand');
-    $card.css('left', discardLocation);
+    $card.css('left', 200);
 	$card.css('z-index', z);
 	z ++;
 	}
 
-$('#deal').click(function()
+$drawPile.on('click', function()
+    {
+    alert("The drawPile was clicked.");
+    if(playerTurn)
         {
-        numberOfCards = $('#numberOfCards').val();
-        discardLocation = (((numberOfCards * 12) + 180) / 2) + 80;
-        var card = "<img src='images/classic-cards/redVertFull.png'>";
-        var table = $('#table');
-        var dealerHand = new Array();
-        var playerHand = new Array();
-    
-        for(var i = 0; i < numberOfCards; i++)
-            {
-            dealerHand.push(deck[0]);
-            deck.splice(0, 1);
-            playerHand.push(deck[0]);
-            deck.splice(0, 1);
-            }
-    
-        dealerHand = dealerHand.sort(bySuitAndThenRank);
-        playerHand = playerHand.sort(bySuitAndThenRank);
-    
-        var newLeft = 180;
-        for(var i = 0; i < numberOfCards; i++)
-            {
-            $('#table').append(card);
-            var cardObj = table.children().get(i); 
-            $(cardObj).addClass('card');
-            $(cardObj).addClass('in-d-hand');
-            var dealerCardFace = dealerHand[i].face;
-            $(cardObj).attr('src', dealerCardFace);
-            $(cardObj).attr('data-card', JSON.stringify(dealerHand[i]));
-            dealerCardValue = dealerHand[i].value;
-            $(cardObj).css('left', newLeft);
-            $(cardObj).click(cardAlert);
-            newLeft += 12;
-            }
-        newLeft = 180;
-        var counter = 0;
-        for(var j = numberOfCards; j < numberOfCards * 2; j++)
-            {
-            $('#table').append(card);
-            var cardObj = table.children().get(j); 
-            $(cardObj).addClass('card');
-            $(cardObj).addClass('in-p-hand');
-            var playerCardFace = playerHand[counter].face;
-            $(cardObj).attr('src', playerCardFace);
-            $(cardObj).attr('data-card', JSON.stringify(playerHand[counter]));
-            playerCardValue = playerHand[counter].value;
-            $(cardObj).css('left', newLeft);
-            $(cardObj).click(cardAlert);
-            counter++;
-            newLeft += 12;
-            }
-        });
+        playerHand.push(deck[0]);
+        deck.splice(0, 1);
+        }
+    else
+        {
+        dealerHand.push(deck[0]);
+        deck.splice(0, 1);
+        }
+    });
+
+$('#deal').click(function()
+    {
+    numberOfCards = $('#numberOfCards').val();
+    var table = $('#table');
+
+    for(var i = 0; i < numberOfCards; i++)
+        {
+        dealerHand.push(deck[0]);
+        deck.splice(0, 1);
+        playerHand.push(deck[0]);
+        deck.splice(0, 1);
+        }
+
+    dealerHand = dealerHand.sort(bySuitAndThenRank);
+    playerHand = playerHand.sort(bySuitAndThenRank);var $drawPile =  $(drawPile);
+
+    var newDealerLeft = 180;
+    for(var i = 0; i < numberOfCards; i++)
+        {
+        $('#table').append(card);
+        var cardObj = table.children().get(i);
+        $(cardObj).addClass('card');
+        $(cardObj).addClass('in-d-hand');
+        var dealerCardFace = dealerHand[i].face;
+        $(cardObj).attr('src', dealerCardFace);
+        $(cardObj).attr('data-card', JSON.stringify(dealerHand[i]));
+        dealerCardValue = dealerHand[i].value;
+        $(cardObj).css('left', newDealerLeft);
+        $(cardObj).click(cardAlert);
+        newDealerLeft += 12;
+        }
+
+    newPlayerLeft = 180;
+    var counter = 0;
+
+    for(var j = numberOfCards; j < numberOfCards * 2; j++)
+        {
+        $('#table').append(card);
+        var cardObj = table.children().get(j);
+        $(cardObj).addClass('card');
+        $(cardObj).addClass('in-p-hand');
+        var playerCardFace = playerHand[counter].face;
+        $(cardObj).attr('src', playerCardFace);
+        $(cardObj).attr('data-card', JSON.stringify(playerHand[counter]));
+        playerCardValue = playerHand[counter].value;
+        $(cardObj).css('left', newPlayerLeft);
+        $(cardObj).click(cardAlert);
+        counter++;
+        newPlayerLeft += 12;
+        }
+    });
           
 function shuffle(array) 
 	{

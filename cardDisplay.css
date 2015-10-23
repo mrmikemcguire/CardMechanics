@@ -29,10 +29,10 @@ button
     padding-top: 50px;
     }
 
-#undrawnCards
+.drawPile
     {
     position: absolute;
-    top: 250px;
+    top: 380px;
     left: 300px;
     }
 
@@ -58,6 +58,7 @@ button
     position: absolute;
     top: 250px;
     }
+
 
 
 
